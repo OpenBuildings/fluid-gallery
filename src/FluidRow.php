@@ -9,12 +9,23 @@ namespace CL\FluidGallery;
  */
 class FluidRow
 {
+    /**
+     * @var Image[]
+     */
     private $images;
 
+    /**
+     * @param Image[] $images
+     */
     function __construct(array $images) {
         $this->images = new Images($images);
     }
 
+    /**
+     * @param  integer $width
+     * @param  integer $height
+     * @param  integer $margin
+     */
     public function constrain($width, $height, $margin = 0)
     {
         $this->images->setHeight($height);
@@ -31,6 +42,9 @@ class FluidRow
         return $this;
     }
 
+    /**
+     * @return Images
+     */
     public function getImages()
     {
         return $this->images;

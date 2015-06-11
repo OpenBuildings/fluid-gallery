@@ -15,6 +15,9 @@ class Images implements Iterator, Countable {
     private $position = 0;
     private $images;
 
+    /**
+     * @param Image[]|null $images
+     */
     public function __construct(array $images = null)
     {
         if ($images) {
@@ -29,11 +32,18 @@ class Images implements Iterator, Countable {
         $this->images []= $image;
     }
 
+    /**
+     * @return array
+     */
     public function all()
     {
         return $this->images;
     }
 
+    /**
+     * Set all widths
+     * @param integer $width
+     */
     public function setWidth($width)
     {
         foreach ($this->images as $image) {
@@ -43,6 +53,10 @@ class Images implements Iterator, Countable {
         return $this;
     }
 
+    /**
+     * Set all hights
+     * @param integer $height
+     */
     public function setHeight($height)
     {
         foreach ($this->images as $image) {
@@ -52,6 +66,11 @@ class Images implements Iterator, Countable {
         return $this;
     }
 
+    /**
+     * Remove all items that fall outside of width, when aligned horizontally, spaced by $margin
+     * @param  integer $width
+     * @param  integer $margin
+     */
     public function removeItemsAfterWidth($width, $margin = 0)
     {
         $y = 0;
@@ -68,21 +87,35 @@ class Images implements Iterator, Countable {
         return $this;
     }
 
+    /**
+     * @return integer
+     */
     public function getGaps()
     {
         return max(count($this->images) - 1, 0);
     }
 
+    /**
+     * @param  integer $margin
+     * @return double
+     */
     public function getWidth($margin)
     {
         return $this->sumWidths() + $this->getGaps() * $margin;
     }
 
+    /**
+     * @param  integer $margin
+     * @return double
+     */
     public function getHeight($margin)
     {
         return $this->sumHeights() + $this->getGaps() * $margin;
     }
 
+    /**
+     * @return double
+     */
     public function sumWidths()
     {
         return array_sum(array_map(function(Image $image) {
@@ -90,6 +123,9 @@ class Images implements Iterator, Countable {
         }, $this->images));
     }
 
+    /**
+     * @return double
+     */
     public function sumHeights()
     {
         return array_sum(array_map(function(Image $image) {
@@ -97,6 +133,9 @@ class Images implements Iterator, Countable {
         }, $this->images));
     }
 
+    /**
+     * @return integer
+     */
     public function count()
     {
         return count($this->images);
