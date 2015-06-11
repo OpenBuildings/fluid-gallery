@@ -48,12 +48,12 @@ class ImageTest extends PHPUnit_Framework_TestCase
      * @covers ::isPortrait
      * @covers ::isSquare
      */
-    public function testTypes($width, $height, $isPortrait, $isPortrait, $isSquare)
+    public function testTypes($width, $height, $isLandscape, $isPortrait, $isSquare)
     {
         $image = new Image('http://example.com/image.jpg', $width, $height);
 
         $this->assertSame($isPortrait, $image->isPortrait());
-        $this->assertSame($isPortrait, $image->isPortrait());
+        $this->assertSame($isLandscape, $image->isLandscape());
         $this->assertSame($isSquare, $image->isSquare());
     }
 

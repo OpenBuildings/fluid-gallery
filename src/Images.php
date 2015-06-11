@@ -77,7 +77,7 @@ class Images implements Iterator, Countable {
 
         foreach ($this->images as $i => $image) {
 
-            $y += $image->width + $margin;
+            $y += $image->getWidth() + $margin;
 
             if ($y > ($width + $margin)) {
                 unset($this->images[$i]);

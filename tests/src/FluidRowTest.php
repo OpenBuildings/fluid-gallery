@@ -8,7 +8,7 @@ use CL\FluidGallery\Images;
 use CL\FluidGallery\Image;
 
 /**
- * @coversDefaultClass CL\FluidGallery\Images
+ * @coversDefaultClass CL\FluidGallery\FluidRow
  */
 class FluidRowTest extends PHPUnit_Framework_TestCase
 {
