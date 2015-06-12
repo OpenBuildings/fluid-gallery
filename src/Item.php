@@ -7,7 +7,7 @@ namespace CL\FluidGallery;
  * @copyright 2015, Clippings Ltd.
  * @license   http://spdx.org/licenses/BSD-3-Clause
  */
-class Image
+class Item
 {
     /**
      * @var integer
@@ -30,26 +30,20 @@ class Image
     private $height;
 
     /**
-     * @var string
+     * @var mixed
      */
-    private $url;
-
-    /**
-     * @var string
-     */
-    private $caption;
+    private $content;
 
     /**
      * @param string  $url
      * @param integer $width
      * @param integer $height
-     * @param string  $caption
+     * @param mixed   $content
      */
-    function __construct($url, $width, $height, $caption = null) {
-        $this->url = $url;
+    function __construct($width, $height, $content = null) {
         $this->originalWidth = $this->width = (int) $width;
         $this->originalHeight = $this->height = (int) $height;
-        $this->caption = $caption;
+        $this->content = $content;
     }
 
     /**
@@ -76,7 +70,7 @@ class Image
     public function setWidth($width)
     {
         $this->width = $width;
-        $this->height = $width * ($this->originalHeight/$this->originalWidth);
+        $this->height = $width / $this->getAspect();
     }
 
     /**
@@ -87,7 +81,7 @@ class Image
     public function setHeight($height)
     {
         $this->height = $height;
-        $this->width = $height * ($this->originalWidth/$this->originalHeight);
+        $this->width = $height * $this->getAspect();
     }
 
     /**
@@ -119,7 +113,7 @@ class Image
      */
     public function getAspect()
     {
-        return $this->width / $this->height;
+        return $this->originalWidth / $this->originalHeight;
     }
 
     /**
@@ -149,16 +143,13 @@ class Image
     /**
      * @return string
      */
-    public function getCaption()
+    public function getContent()
     {
-        return $this->caption;
+        return $this->content;
     }
 
-    /**
-     * @return string
-     */
-    public function getUrl()
+    public function __toString()
     {
-        return $this->url;
+        return "[Image {$this->originalWidth}x{$this->originalHeight} ({$this->content})]";
     }
 }

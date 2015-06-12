@@ -21,18 +21,29 @@ Usage
 -----
 
 ```php
-$row = new FluidRow(new FluidRow([
-    new Image('http://example.com/1.jpg', 100, 200),
-    new Image('http://example.com/2.jpg', 200, 100),
-    new Image('http://example.com/3.jpg', 100, 100),
+$gallery = new Gallery([
+    new Item(100, 200, 'http://example.com/1.jpg'),
+    new Item(200, 100, 'http://example.com/2.jpg'),
+    new Item(100, 100, 'http://example.com/3.jpg'),
+    new Item(300, 200, 'http://example.com/4.jpg'),
 ]);
 
-// constrain within width / height / margin
-$row->constrain(200, 50, 10);
+$gallery->setMargin(15);
 
-foreach ($row->getImages() as $image) {
-    echo ...
+// extract some of the images into a group
+$group = $row->extract(function($group) {
+    return $group
+        ->setHeight(50)
+        ->horizontalSlice(200)
+        ->scaleToWidth(200);
+});
+
+foreach ($group as $item) {
+    echo $item->getContent();
 }
+
+// Get the remaining items
+$gallery->getItems();
 ```
 
 License
