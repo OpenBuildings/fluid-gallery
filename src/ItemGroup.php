@@ -102,7 +102,7 @@ class ItemGroup implements Iterator, Countable {
      */
     public function filter(Closure $filter)
     {
-        return new ItemGroup(array_filter($this->items, $filter), $this->margin);
+        return new ItemGroup($this->items ? array_filter($this->items, $filter) : [], $this->margin);
     }
 
     /**
@@ -112,7 +112,7 @@ class ItemGroup implements Iterator, Countable {
      */
     public function slice($offset, $limit)
     {
-        return new ItemGroup(array_slice($this->items, $offset, $limit), $this->margin);
+        return new ItemGroup($this->items ? array_slice($this->items, $offset, $limit) : [], $this->margin);
     }
 
     /**
