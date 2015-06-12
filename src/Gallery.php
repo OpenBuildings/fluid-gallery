@@ -26,6 +26,22 @@ class Gallery
         $this->margin = $margin;
     }
 
+    public function add(Item $item)
+    {
+        $this->items []= $item;
+
+        return $this;
+    }
+
+    public function getMargin()
+    {
+        return $this->margin;
+    }
+
+    public function getMarginPercent($total)
+    {
+        return ($this->margin / $total) * 100;
+    }
 
     public function extract(Closure $extract)
     {

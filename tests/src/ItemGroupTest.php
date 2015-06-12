@@ -139,6 +139,75 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::verticalSlice
+     */
+    public function testVerticalSlice()
+    {
+        $group = new ItemGroup(
+            [
+                new Item(100, 200),
+                new Item(200, 100),
+                new Item(100, 100),
+            ],
+            15
+        );
+
+        $sliced = $group->verticalSlice(350);
+
+        $expected = [
+            new Item(100, 200),
+            new Item(200, 100),
+        ];
+
+        $this->assertEquals($expected, $sliced->all());
+    }
+
+    /**
+     * @covers ::filter
+     */
+    public function testFilter()
+    {
+        $group = new ItemGroup([
+            new Item(100, 200, true),
+            new Item(200, 100, false),
+            new Item(100, 100, true),
+        ]);
+
+        $expected = [
+            new Item(100, 200, true),
+            new Item(100, 100, true),
+        ];
+
+        $filtered = $group->filter(function($item) {
+            return $item->getContent();
+        });
+
+        $this->assertEquals($expected, $filtered->all());
+    }
+
+    /**
+     * @covers ::slice
+     */
+    public function testSlice()
+    {
+        $group = new ItemGroup([
+            new Item(100, 200),
+            new Item(200, 100),
+            new Item(100, 100),
+            new Item(50, 70),
+        ]);
+
+        $expected = [
+            new Item(200, 100),
+            new Item(100, 100),
+        ];
+
+        $sliced = $group->slice(1, 2);
+
+        $this->assertEquals($expected, $sliced->all());
+    }
+
+    /**
      * @covers ::count
      */
     public function testCount()
@@ -199,6 +268,41 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(500, $group->getWidth());
     }
 
+    /**
+     * @covers ::scaleToHeight
+     */
+    public function testScaleToHeight()
+    {
+        $group = new ItemGroup(
+            [
+                new Item(100, 200),
+                new Item(200, 100),
+                new Item(100, 100),
+            ],
+            15
+        );
+
+        $scaled = $group->scaleToHeight(500);
+
+        $this->assertEquals(500, $group->getHeight());
+    }
+
+    /**
+     * @covers ::setScale
+     */
+    public function testSetScale()
+    {
+        $group = new ItemGroup([
+            new Item(100, 200),
+            new Item(200, 100),
+            new Item(100, 100),
+        ]);
+
+        $group->setScale(2);
+
+        $this->assertEquals(800, $group->getWidth());
+        $this->assertEquals(800, $group->getHeight());
+    }
 
     /**
      * @covers ::sumHeights

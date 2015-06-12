@@ -70,32 +70,6 @@ class ItemGroup implements Iterator, Countable {
     }
 
     /**
-     * Multiple the widths of all the items by $scale
-     * @param double $scale
-     */
-    public function setWidthScale($scale)
-    {
-        foreach ($this->items as $item) {
-            $item->setWidth($item->getWidth() * $scale);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Multiple the hights of all the items by $scale
-     * @param double $scale
-     */
-    public function setHeightScale($scale)
-    {
-        foreach ($this->items as $item) {
-            $item->setHeight($item->getHeight() * $scale);
-        }
-
-        return $this;
-    }
-
-    /**
      * Set all hights
      * @param integer $height
      */
@@ -103,6 +77,19 @@ class ItemGroup implements Iterator, Countable {
     {
         foreach ($this->items as $item) {
             $item->setHeight($height);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Multiple the width/height of all the items by $scale
+     * @param double $scale
+     */
+    public function setScale($scale)
+    {
+        foreach ($this->items as $item) {
+            $item->setWidth($item->getWidth() * $scale);
         }
 
         return $this;
@@ -141,7 +128,26 @@ class ItemGroup implements Iterator, Countable {
 
         if ($widthWithoutMargins and $sumWidths < $widthWithoutMargins) {
             $difference = $widthWithoutMargins / $sumWidths;
-            $items->setWidthScale($difference);
+            $items->setScale($difference);
+        }
+
+        return $items;
+    }
+
+    /**
+     * Scale all of the widths of the items to match an overall height, respecting margins
+     * @param  double $height
+     * @return ItemGroup
+     */
+    public function scaleToHeight($height)
+    {
+        $items = clone $this;
+        $heightWithoutMargins = $height - $items->getGaps() * $this->margin;
+        $sumHeights = $items->sumHeights();
+
+        if ($heightWithoutMargins and $sumHeights < $heightWithoutMargins) {
+            $difference = $heightWithoutMargins / $sumHeights;
+            $items->setScale($difference);
         }
 
         return $items;
@@ -173,7 +179,7 @@ class ItemGroup implements Iterator, Countable {
     {
         $current = 0;
 
-        return $this->filter(function(Item $item) use ($height, $margin, &$current) {
+        return $this->filter(function(Item $item) use ($height, &$current) {
             $current += $item->getHeight() + $this->margin;
 
             return $current <= ($height + $this->margin);

@@ -63,6 +63,24 @@ class Item
     }
 
     /**
+     * @param double $total
+     * @return double
+     */
+    public function getWidthPercent($total)
+    {
+        return ($this->width / $total) * 100;
+    }
+
+    /**
+     * @param double $total
+     * @return double
+     */
+    public function getHeightPercent($total)
+    {
+        return ($this->height / $total) * 100;
+    }
+
+    /**
      * set width, keeping aspect ratio
      *
      * @param integer $width

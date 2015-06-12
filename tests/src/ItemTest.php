@@ -19,18 +19,24 @@ class ItemTest extends PHPUnit_Framework_TestCase
      * @covers ::getOriginalHeight
      * @covers ::getContent
      * @covers ::getAspect
+     * @covers ::getWidthPercent
+     * @covers ::getHeightPercent
+     * @covers ::__toString
      */
     public function testConstruct()
     {
-        $object = new stdClass();
-        $item = new Item(100, 200, $object);
+        $content = 'test!';
+        $item = new Item(100, 200, $content);
 
         $this->assertSame(100, $item->getWidth());
         $this->assertSame(100, $item->getOriginalWidth());
         $this->assertSame(200, $item->getHeight());
         $this->assertSame(200, $item->getOriginalHeight());
         $this->assertSame(0.5, $item->getAspect());
-        $this->assertSame($object, $item->getContent());
+        $this->assertEquals(25, $item->getWidthPercent(400));
+        $this->assertEquals(50, $item->getHeightPercent(400));
+        $this->assertSame('test!', $item->getContent());
+        $this->assertSame('[Image 100x200 (test!)]', (string) $item);
     }
 
     public function dataTypes()
