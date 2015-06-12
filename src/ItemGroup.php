@@ -124,7 +124,7 @@ class ItemGroup implements Iterator, Countable {
         $widthWithoutMargins = $width - $items->getGaps() * $this->margin;
         $sumWidths = $items->sumWidths();
 
-        if ($widthWithoutMargins and $sumWidths < $widthWithoutMargins) {
+        if ($sumWidths and $sumWidths < $widthWithoutMargins) {
             $difference = $widthWithoutMargins / $sumWidths;
             $items->setScale($difference);
         }
@@ -143,7 +143,7 @@ class ItemGroup implements Iterator, Countable {
         $heightWithoutMargins = $height - $items->getGaps() * $this->margin;
         $sumHeights = $items->sumHeights();
 
-        if ($heightWithoutMargins and $sumHeights < $heightWithoutMargins) {
+        if ($sumHeights and $sumHeights < $heightWithoutMargins) {
             $difference = $heightWithoutMargins / $sumHeights;
             $items->setScale($difference);
         }
