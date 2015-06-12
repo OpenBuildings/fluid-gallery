@@ -15,17 +15,15 @@ class ItemGroup implements Iterator, Countable {
 
     private $position = 0;
     private $margin;
-    private $items;
+    private $items = [];
 
     /**
      * @param Item[]|null $items
      */
-    public function __construct(array $items = null, $margin = 0)
+    public function __construct(array $items, $margin = 0)
     {
-        if ($items) {
-            foreach ($items as $item) {
-                $this->add($item);
-            }
+        foreach ($items as $item) {
+            $this->add($item);
         }
 
         $this->margin = $margin;
@@ -102,7 +100,7 @@ class ItemGroup implements Iterator, Countable {
      */
     public function filter(Closure $filter)
     {
-        return new ItemGroup($this->items ? array_filter($this->items, $filter) : [], $this->margin);
+        return new ItemGroup(array_filter($this->items, $filter), $this->margin);
     }
 
     /**
@@ -112,7 +110,7 @@ class ItemGroup implements Iterator, Countable {
      */
     public function slice($offset, $limit)
     {
-        return new ItemGroup($this->items ? array_slice($this->items, $offset, $limit) : [], $this->margin);
+        return new ItemGroup(array_slice($this->items, $offset, $limit), $this->margin);
     }
 
     /**

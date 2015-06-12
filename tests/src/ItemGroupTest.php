@@ -34,7 +34,7 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
      */
     public function testSetMargin()
     {
-        $group = new ItemGroup();
+        $group = new ItemGroup([]);
 
         $group->setMargin(32);
 
