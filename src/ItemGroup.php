@@ -34,6 +34,11 @@ class ItemGroup implements Iterator, Countable {
         return $this->margin;
     }
 
+    public function getMarginPercent($total)
+    {
+        return ($this->margin / $total) * 100;
+    }
+
     public function setMargin($margin)
     {
         $this->margin = $margin;

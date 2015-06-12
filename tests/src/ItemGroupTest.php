@@ -27,6 +27,7 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($array, $group->all());
         $this->assertEquals(10, $group->getMargin());
+        $this->assertEquals(50, $group->getMarginPercent(20));
     }
 
     /**
