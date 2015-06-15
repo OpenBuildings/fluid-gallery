@@ -13,7 +13,6 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::__construct
-     * @covers ::all
      * @covers ::getMargin
      */
     public function testConstruct()
@@ -25,7 +24,7 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
 
         $group = new ItemGroup($array, 10);
 
-        $this->assertEquals($array, $group->all());
+        $this->assertEquals($array, $group->getArrayCopy());
         $this->assertEquals(10, $group->getMargin());
         $this->assertEquals(50, $group->getMarginPercent(20));
     }
@@ -62,7 +61,7 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
             new Item(100, 100),
         ];
 
-        $this->assertEquals($expected, $group->all());
+        $this->assertEquals($expected, $group->getArrayCopy());
     }
 
     /**
@@ -78,16 +77,14 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
 
         $group->setWidth(50);
 
-        $array = $group->all();
+        $this->assertEquals(50, $group[0]->getWidth());
+        $this->assertEquals(100, $group[0]->getHeight());
 
-        $this->assertEquals(50, $array[0]->getWidth());
-        $this->assertEquals(100, $array[0]->getHeight());
+        $this->assertEquals(50, $group[1]->getWidth());
+        $this->assertEquals(25, $group[1]->getHeight());
 
-        $this->assertEquals(50, $array[1]->getWidth());
-        $this->assertEquals(25, $array[1]->getHeight());
-
-        $this->assertEquals(50, $array[2]->getWidth());
-        $this->assertEquals(50, $array[2]->getHeight());
+        $this->assertEquals(50, $group[2]->getWidth());
+        $this->assertEquals(50, $group[2]->getHeight());
     }
 
     /**
@@ -103,16 +100,14 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
 
         $group->setHeight(50);
 
-        $array = $group->all();
+        $this->assertEquals(25, $group[0]->getWidth());
+        $this->assertEquals(50, $group[0]->getHeight());
 
-        $this->assertEquals(25, $array[0]->getWidth());
-        $this->assertEquals(50, $array[0]->getHeight());
+        $this->assertEquals(100, $group[1]->getWidth());
+        $this->assertEquals(50, $group[1]->getHeight());
 
-        $this->assertEquals(100, $array[1]->getWidth());
-        $this->assertEquals(50, $array[1]->getHeight());
-
-        $this->assertEquals(50, $array[2]->getWidth());
-        $this->assertEquals(50, $array[2]->getHeight());
+        $this->assertEquals(50, $group[2]->getWidth());
+        $this->assertEquals(50, $group[2]->getHeight());
     }
 
     /**
@@ -136,7 +131,7 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
             new Item(200, 100),
         ];
 
-        $this->assertEquals($expected, $sliced->all());
+        $this->assertEquals($expected, $sliced->getArrayCopy());
     }
 
     /**
@@ -160,7 +155,7 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
             new Item(200, 100),
         ];
 
-        $this->assertEquals($expected, $sliced->all());
+        $this->assertEquals($expected, $sliced->getArrayCopy());
     }
 
     /**
@@ -183,7 +178,7 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
             return $item->getContent();
         });
 
-        $this->assertEquals($expected, $filtered->all());
+        $this->assertEquals($expected, $filtered->getArrayCopy());
     }
 
     /**
@@ -205,7 +200,7 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
 
         $sliced = $group->slice(1, 2);
 
-        $this->assertEquals($expected, $sliced->all());
+        $this->assertEquals($expected, $sliced->getArrayCopy());
     }
 
     /**
@@ -268,6 +263,30 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(500, $group->getWidth());
     }
+
+    /**
+    * @covers ::extract
+    */
+   public function testExtract()
+   {
+       $gallery = new ItemGroup(
+           [
+               new Item(100, 200),
+               new Item(200, 100),
+               new Item(100, 100),
+           ],
+           15
+       );
+
+       $extracted = $gallery->extract(function(ItemGroup $group) {
+           return $group
+               ->setHeight(50)
+               ->horizontalSlice(410)
+               ->scaleToWidth(410);
+       });
+
+       $this->assertEquals(410, $extracted->getWidth());
+   }
 
     /**
      * @covers ::scaleToHeight
@@ -354,11 +373,7 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::rewind
-     * @covers ::current
-     * @covers ::key
-     * @covers ::next
-     * @covers ::valid
+     * @coverNothing
      */
     public function testIterator()
     {

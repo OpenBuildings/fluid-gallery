@@ -2,8 +2,7 @@
 
 namespace CL\FluidGallery;
 
-use Iterator;
-use Countable;
+use ArrayObject;
 use Closure;
 
 /**
@@ -11,11 +10,9 @@ use Closure;
  * @copyright 2015, Clippings Ltd.
  * @license   http://spdx.org/licenses/BSD-3-Clause
  */
-class ItemGroup implements Iterator, Countable {
+class ItemGroup extends ArrayObject {
 
-    private $position = 0;
     private $margin;
-    private $items = [];
 
     /**
      * @param Item[]|null $items
@@ -48,15 +45,18 @@ class ItemGroup implements Iterator, Countable {
 
     public function add(Item $item)
     {
-        $this->items []= $item;
+        $this->append($item);
     }
 
-    /**
-     * @return array
-     */
-    public function all()
+    public function extract(Closure $extract)
     {
-        return $this->items;
+        $array = $this->getArrayCopy();
+
+        $extracted = $extract(new ItemGroup($array, $this->margin));
+
+        $this->exchangeArray(array_diff($array, $extracted->getArrayCopy()));
+
+        return $extracted;
     }
 
     /**
@@ -65,7 +65,7 @@ class ItemGroup implements Iterator, Countable {
      */
     public function setWidth($width)
     {
-        foreach ($this->items as $item) {
+        foreach ($this as $item) {
             $item->setWidth($width);
         }
 
@@ -78,7 +78,7 @@ class ItemGroup implements Iterator, Countable {
      */
     public function setHeight($height)
     {
-        foreach ($this->items as $item) {
+        foreach ($this as $item) {
             $item->setHeight($height);
         }
 
@@ -91,7 +91,7 @@ class ItemGroup implements Iterator, Countable {
      */
     public function setScale($scale)
     {
-        foreach ($this->items as $item) {
+        foreach ($this as $item) {
             $item->setWidth($item->getWidth() * $scale);
         }
 
@@ -105,7 +105,7 @@ class ItemGroup implements Iterator, Countable {
      */
     public function filter(Closure $filter)
     {
-        return new ItemGroup(array_filter($this->items, $filter), $this->margin);
+        return new ItemGroup(array_filter($this->getArrayCopy(), $filter), $this->margin);
     }
 
     /**
@@ -115,7 +115,7 @@ class ItemGroup implements Iterator, Countable {
      */
     public function slice($offset, $limit)
     {
-        return new ItemGroup(array_slice($this->items, $offset, $limit), $this->margin);
+        return new ItemGroup(array_slice($this->getArrayCopy(), $offset, $limit), $this->margin);
     }
 
     /**
@@ -194,7 +194,7 @@ class ItemGroup implements Iterator, Countable {
      */
     public function getGaps()
     {
-        return max(count($this->items) - 1, 0);
+        return max(count($this) - 1, 0);
     }
 
     /**
@@ -220,7 +220,7 @@ class ItemGroup implements Iterator, Countable {
     {
         return array_sum(array_map(function(Item $item) {
             return $item->getWidth();
-        }, $this->items));
+        }, $this->getArrayCopy()));
     }
 
     /**
@@ -230,34 +230,6 @@ class ItemGroup implements Iterator, Countable {
     {
         return array_sum(array_map(function(Item $item) {
             return $item->getHeight();
-        }, $this->items));
-    }
-
-    /**
-     * @return integer
-     */
-    public function count()
-    {
-        return count($this->items);
-    }
-
-    function rewind() {
-        $this->position = 0;
-    }
-
-    function current() {
-        return $this->items[$this->position];
-    }
-
-    function key() {
-        return $this->position;
-    }
-
-    function next() {
-        ++$this->position;
-    }
-
-    function valid() {
-        return isset($this->items[$this->position]);
+        }, $this->getArrayCopy()));
     }
 }
