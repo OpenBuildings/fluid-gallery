@@ -15,7 +15,8 @@ class ItemGroup extends ArrayObject {
     private $margin;
 
     /**
-     * @param Item[]|null $items
+     * @param Item[] $items
+     * @param float  $margin
      */
     public function __construct(array $items, $margin = 0)
     {
@@ -26,16 +27,29 @@ class ItemGroup extends ArrayObject {
         $this->margin = $margin;
     }
 
+    /**
+     * Get the margin
+     * @return float
+     */
     public function getMargin()
     {
         return $this->margin;
     }
 
+    /**
+     * Get the margin as a percentage of total
+     * @param  float $total
+     * @return float
+     */
     public function getMarginPercent($total)
     {
         return ($this->margin / $total) * 100;
     }
 
+    /**
+     * Change the margin
+     * @param float $margin
+     */
     public function setMargin($margin)
     {
         $this->margin = $margin;
@@ -43,11 +57,20 @@ class ItemGroup extends ArrayObject {
         return $this;
     }
 
+    /**
+     * Add item
+     * @param Item $item
+     */
     public function add(Item $item)
     {
         $this->append($item);
     }
 
+    /**
+     * Extract an ItemGroup, removing all the items from the parent ItemGroup
+     * @param  Closure $extract
+     * @return ItemGroup
+     */
     public function extract(Closure $extract)
     {
         $array = $this->getArrayCopy();
@@ -60,7 +83,7 @@ class ItemGroup extends ArrayObject {
     }
 
     /**
-     * Set all widths
+     * Set all widths, keeping aspect ratios
      * @param integer $width
      */
     public function setWidth($width)
@@ -73,7 +96,7 @@ class ItemGroup extends ArrayObject {
     }
 
     /**
-     * Set all hights
+     * Set all hights, keeping aspect ratios
      * @param integer $height
      */
     public function setHeight($height)
@@ -87,7 +110,7 @@ class ItemGroup extends ArrayObject {
 
     /**
      * Multiple the width/height of all the items by $scale
-     * @param double $scale
+     * @param float $scale
      */
     public function setScale($scale)
     {
@@ -120,7 +143,7 @@ class ItemGroup extends ArrayObject {
 
     /**
      * Scale all of the widths of the items to match an overall width, respecting margins
-     * @param  double $width
+     * @param  float $width
      * @return ItemGroup
      */
     public function scaleToWidth($width)
@@ -139,7 +162,7 @@ class ItemGroup extends ArrayObject {
 
     /**
      * Scale all of the widths of the items to match an overall height, respecting margins
-     * @param  double $height
+     * @param  float $height
      * @return ItemGroup
      */
     public function scaleToHeight($height)
@@ -198,7 +221,7 @@ class ItemGroup extends ArrayObject {
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function getWidth()
     {
@@ -206,7 +229,7 @@ class ItemGroup extends ArrayObject {
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function getHeight()
     {
@@ -214,7 +237,7 @@ class ItemGroup extends ArrayObject {
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function sumWidths()
     {
@@ -224,7 +247,7 @@ class ItemGroup extends ArrayObject {
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function sumHeights()
     {

@@ -20,12 +20,12 @@ class Item
     private $originalHeight;
 
     /**
-     * @var double|integer
+     * @var float|integer
      */
     private $width;
 
     /**
-     * @var double|integer
+     * @var float|integer
      */
     private $height;
 
@@ -47,7 +47,7 @@ class Item
     }
 
     /**
-     * @return double|integer
+     * @return float|integer
      */
     public function getWidth()
     {
@@ -55,7 +55,7 @@ class Item
     }
 
     /**
-     * @return double|integer
+     * @return float|integer
      */
     public function getHeight()
     {
@@ -63,8 +63,8 @@ class Item
     }
 
     /**
-     * @param double $total
-     * @return double
+     * @param float $total
+     * @return float
      */
     public function getWidthPercent($total)
     {
@@ -72,8 +72,8 @@ class Item
     }
 
     /**
-     * @param double $total
-     * @return double
+     * @param float $total
+     * @return float
      */
     public function getHeightPercent($total)
     {
@@ -103,7 +103,7 @@ class Item
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function getScale()
     {
@@ -127,7 +127,7 @@ class Item
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function getAspect()
     {
