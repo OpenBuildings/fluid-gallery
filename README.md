@@ -1,15 +1,15 @@
 Fluid Gallery
 =============
 
-[![Build Status](https://travis-ci.org/{%repository_name%}.png?branch=master)](https://travis-ci.org/clippings/fluid-gallery)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/{%repository_name%}/badges/quality-score.png)](https://scrutinizer-ci.com/g/clippings/fluid-gallery/)
-[![Code Coverage](https://scrutinizer-ci.com/g/{%repository_name%}/badges/coverage.png)](https://scrutinizer-ci.com/g/clippings/fluid-gallery/)
-[![Latest Stable Version](https://poser.pugx.org/{%repository_name%}/v/stable.png)](https://packagist.org/packages/clippings/fluid-gallery)
+[![Build Status](https://travis-ci.org/clippings/fluid-gallery.svg?branch=master)](https://travis-ci.org/clippings/fluid-gallery)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/clippings/fluid-gallery/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/clippings/fluid-gallery/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/clippings/fluid-gallery/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clippings/fluid-gallery/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/clippings/fluid-gallery/v/stable)](https://packagist.org/packages/clippings/fluid-gallery)
 
 Arrange Images with percentages
 
-Instalation
------------
+Installation
+------------
 
 Install via composer
 

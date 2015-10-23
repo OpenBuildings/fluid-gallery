@@ -14,6 +14,7 @@ class ItemGroupTest extends PHPUnit_Framework_TestCase
     /**
      * @covers ::__construct
      * @covers ::getMargin
+     * @covers ::getMarginPercent
      */
     public function testConstruct()
     {

@@ -11,8 +11,13 @@
     ],
     "autoload": {
         "psr-4": {
-            "CL\\FluidGallery\\": "src/",
+            "CL\\FluidGallery\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "CL\\FluidGallery\\Test\\": "tests/src/"
         }
     }
+
 }
