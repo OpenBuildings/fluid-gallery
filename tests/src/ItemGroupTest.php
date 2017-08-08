@@ -2,14 +2,14 @@
 
 namespace CL\FluidGallery\Test;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use CL\FluidGallery\ItemGroup;
 use CL\FluidGallery\Item;
 
 /**
  * @coversDefaultClass CL\FluidGallery\ItemGroup
  */
-class ItemGroupTest extends PHPUnit_Framework_TestCase
+class ItemGroupTest extends TestCase
 {
     /**
      * @covers ::__construct
